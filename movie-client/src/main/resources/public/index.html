@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MovieSpa</title>
+<base href="/">
+<script type="text/javascript" src="jquery.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#showMovies").click(function() {
+				$.get("http://localhost:8081/movies", function( data ) {
+					$.each(data, function(i, data){
+					     $("#movies").append("<tr><td>" + data.id + "</td><td>" + data.title + "</td></tr>");
+					});
+				});
+			});
+		});
+	</script>
+
+	<button id="showMovies">Show Movies</button>
+	<table id="movies"></table>
+
+<!-- 	<app-root></app-root> -->
+</body>
+</html>

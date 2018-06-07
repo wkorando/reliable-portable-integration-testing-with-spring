@@ -5,20 +5,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class MovieService {
 
+	private MovieRepo repo;
+	
+	
 	public Iterable<Movie> findAllMovies() {
-		return null;
+		return repo.findAll();
 	}
 
 	public Movie addMovie(Movie movie) {
-		return null;
+		return repo.save(movie);
 	}
 
 	public Iterable<Movie> findByMovieTitle(String name) {
-		return null;
+		return repo.findMoviesByTitle(name);
 	}
 
 	public Iterable<Movie> findByGenreAndRunLength(String genre, String runLength) {
-		return null;
+		return repo.findMoviesByGenreAndRunTimeMins(genre, Integer.valueOf(runLength));
 	}
 
 }

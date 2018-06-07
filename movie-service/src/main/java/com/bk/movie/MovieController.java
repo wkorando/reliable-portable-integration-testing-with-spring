@@ -29,8 +29,8 @@ public class MovieController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.addMovie(movie));
 	}
 
-	@GetMapping(params = "name")
-	public ResponseEntity<Iterable<Movie>> searchMoviesByName(@RequestParam("name") String name) {
+	@GetMapping(params = "title")
+	public ResponseEntity<Iterable<Movie>> searchMoviesByName(@RequestParam("title") String name) {
 		return ResponseEntity.ok(service.findByMovieTitle(name));
 	}
 
