@@ -18,12 +18,43 @@
 					});
 				});
 			});
+			
+			$("#movieForm").submit(function( event ) {
+  			// Stop form from submitting normally
+  			event.preventDefault();
+ 
+  			// Send the data using post
+  			var posting = $.post( "http://localhost:8081/movies", $( "#movieForm" ).serialize() );
+ 
+  			// Put the results in a div
+  			posting.done(function( data ) {
+    			$.each(data, function(i, data){
+					$("#newMovie ").append("<tr><td>" + data.id + "</td><td>" + data.title + "</td></tr>");
+				});
+  			});
 		});
+		});
+		
 	</script>
 
 	<button id="showMovies">Show Movies</button>
 	<table id="movies"></table>
 
-<!-- 	<app-root></app-root> -->
+	<form id="movieForm" action="/">
+  		ID:<br>
+  		<input type="text" name="id"><br>
+  		Title:<br>
+  		<input type="text" name="title"><br>
+  		Genre:<br>
+  		<input type="text" name="genre"><br>
+  		Release Year:<br>
+  		<input type="text" name="releaseYear"><br>
+  		Run Time (Mins):<br>
+  		<input type="text" name="runTimeMins"><br>
+  		<input type="submit" value="Submit">
+	</form>
+	
+	<table id="newMovie"></table>
+	
 </body>
 </html>

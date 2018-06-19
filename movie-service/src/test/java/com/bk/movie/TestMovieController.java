@@ -107,7 +107,7 @@ public class TestMovieController {
 		when(service.findByMovieTitle("John Wick")).thenReturn(Arrays.asList(JOHN_WICK));
 
 		// When
-		mockMvc.perform(get("/movies?title=John Wick"))
+		mockMvc.perform(get("/movies").param("title", "John Wick"))
 
 				// Then
 				.andDo(document("find-movies-by-title",
