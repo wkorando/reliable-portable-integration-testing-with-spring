@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.junit.jupiter.migrationsupport.rules.EnableRuleMigrationSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.util.TestPropertyValues;
@@ -18,7 +17,6 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 @ContextConfiguration(classes = { MovieServiceApplication.class }, initializers = ITMovieRepo.Initializer.class)
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
-@EnableRuleMigrationSupport
 public class ITMovieRepo {
 
 	public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -36,7 +34,6 @@ public class ITMovieRepo {
 
 	@RegisterExtension
 	static SpringTestContainersExtension extension = new SpringTestContainersExtension(postgres, true);
-
 	@Autowired
 	private MovieRepo repo;
 	@MockBean
@@ -53,5 +50,18 @@ public class ITMovieRepo {
 				() -> assertEquals("John Wick", movie.getTitle()), //
 				() -> assertEquals(2014, movie.getReleaseYear()), //
 				() -> assertEquals(112, movie.getRunTimeMins()));
+	}
+	
+	@Test
+	public void testAddCustomerToDatabase() {
+
+		Movie movie = new Movie(2L, "Predator", "Action", 1986, 127);
+		
+		Movie savedMovie = repo.save(movie);
+
+		assertAll(() -> assertEquals("Action", savedMovie.getGenre()), //
+				() -> assertEquals("Predator", savedMovie.getTitle()), //
+				() -> assertEquals(1986, savedMovie.getReleaseYear()), //
+				() -> assertEquals(127, savedMovie.getRunTimeMins()));
 	}
 }

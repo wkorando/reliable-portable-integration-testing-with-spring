@@ -28,7 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @WebMvcTest(controllers = MovieController.class, secure = false)
 @AutoConfigureRestDocs(outputDir = "target/generated-snippets")
 @AutoConfigureMockMvc
-public class ITMovieController {
+public class TestMovieController {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -40,6 +40,7 @@ public class ITMovieController {
 	private final Movie PREDATOR = new Movie(1, "Predator", "Action", 1986, 127);
 	private final Movie JOHN_WICK = new Movie(2, "John Wick", "Action", 2014, 104);
 	private final Movie TROPIC_THUNDER = new Movie(3, "Tropic Thunder", "Comedy", 2009, 97);
+	private final Movie MOVIE_MISSING_FIELDS = new Movie(0, "", "", 0, 0);
 
 	@Test
 	public void callFindAllEndpoint() throws Exception {
@@ -79,6 +80,25 @@ public class ITMovieController {
 								fieldWithPath("genre").description("The genre of the movie"),
 								fieldWithPath("releaseYear").description("The year the movie was released"),
 								fieldWithPath("runTimeMins").description("The movie's runtime in minutes"))));
+	}
+	
+	@Test
+	public void callAddMovieEndpointError() throws Exception {
+		// Setup
+		when(service.addMovie(MOVIE_MISSING_FIELDS)).thenCallRealMethod();
+
+		// When
+		mockMvc.perform(post("/movies").contentType(MediaType.APPLICATION_JSON_UTF8)
+				.content(mapper.writeValueAsString(MOVIE_MISSING_FIELDS)))
+
+				// Then
+				.andDo(document("add-movie-error",
+						requestFields(fieldWithPath("id").description("The movie's id"),
+								fieldWithPath("title").description("The movie's title"),
+								fieldWithPath("genre").description("The genre of the movie"),
+								fieldWithPath("releaseYear").description("The year the movie was released"),
+								fieldWithPath("runTimeMins").description("The movie's runtime in minutes")),
+						responseFields(fieldWithPath("errorMessages").description("Array of messages describing from with request."))));
 	}
 
 	@Test

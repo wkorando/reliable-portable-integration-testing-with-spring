@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Movie implements Serializable {
 
 	private static final long serialVersionUID = -8553189923124180473L;
+	private int id;
 	private String title;
 	private String genre;
 	private int releaseYear;
@@ -13,11 +14,16 @@ public class Movie implements Serializable {
 	public Movie() {
 	}
 
-	public Movie(String title, String genre, int releaseYear, int runTimeMins) {
+	public Movie(int id, String title, String genre, int releaseYear, int runTimeMins) {
+		this.id = id;
 		this.title = title;
 		this.genre = genre;
 		this.releaseYear = releaseYear;
 		this.runTimeMins = runTimeMins;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public String getTitle() {
@@ -41,6 +47,7 @@ public class Movie implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
+		result = prime * result + id;
 		result = prime * result + releaseYear;
 		result = prime * result + runTimeMins;
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
@@ -60,6 +67,8 @@ public class Movie implements Serializable {
 			if (other.genre != null)
 				return false;
 		} else if (!genre.equals(other.genre))
+			return false;
+		if (id != other.id)
 			return false;
 		if (releaseYear != other.releaseYear)
 			return false;

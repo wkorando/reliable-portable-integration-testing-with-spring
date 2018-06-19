@@ -25,6 +25,10 @@ A `POST` request to a add a new movie to the catalog
 
 operation::add-movie[snippets='request-fields,response-fields,curl-request,http-response']
 
+Example of a `POST` request where client sends business errors
+
+operation::add-movie-error[snippets='response-fields,curl-request,http-response']
+
 == Find movies by genre and run length
 
 A `GET` request to retrieve all movies by run length and genre
