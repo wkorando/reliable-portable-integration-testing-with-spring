@@ -70,27 +70,35 @@ public class LocalWireMockServerConfig {
 						case "GET":
 							WireMock.stubFor(get(urlMatching(stub.getRequest().getUrl()))
 									.willReturn(ResponseDefinitionBuilder.like(responseDefinition)));
+							break;
 						case "POST":
 							WireMock.stubFor(post(urlMatching(stub.getRequest().getUrl()))
 									.willReturn(ResponseDefinitionBuilder.like(responseDefinition)));
+							break;
 						case "PUT":
 							WireMock.stubFor(put(urlMatching(stub.getRequest().getUrl()))
 									.willReturn(ResponseDefinitionBuilder.like(responseDefinition)));
+							break;
 						case "DELETE":
 							WireMock.stubFor(delete(urlMatching(stub.getRequest().getUrl()))
 									.willReturn(ResponseDefinitionBuilder.like(responseDefinition)));
+							break;
 						case "PATCH":
 							WireMock.stubFor(patch(urlMatching(stub.getRequest().getUrl()))
 									.willReturn(ResponseDefinitionBuilder.like(responseDefinition)));
+							break;
 						case "OPTIONS":
 							WireMock.stubFor(options(urlMatching(stub.getRequest().getUrl()))
 									.willReturn(ResponseDefinitionBuilder.like(responseDefinition)));
+							break;
 						case "HEAD":
 							WireMock.stubFor(head(urlMatching(stub.getRequest().getUrl()))
 									.willReturn(ResponseDefinitionBuilder.like(responseDefinition)));
+							break;
 						case "TRACE":
 							WireMock.stubFor(trace(urlMatching(stub.getRequest().getUrl()))
 									.willReturn(ResponseDefinitionBuilder.like(responseDefinition)));
+							break;
 						}
 					}
 				}

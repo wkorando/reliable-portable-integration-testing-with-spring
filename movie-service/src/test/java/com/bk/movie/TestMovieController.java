@@ -9,15 +9,19 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
+import org.hamcrest.text.MatchesPattern;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cloud.contract.wiremock.restdocs.WireMockRestDocs;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.web.servlet.MockMvc;
@@ -38,7 +42,7 @@ public class TestMovieController {
 	private MovieService service;
 
 	private final Movie PREDATOR = new Movie(1, "Predator", "Action", 1986, 127);
-	private final Movie JOHN_WICK = new Movie(2, "John Wick", "Action", 2014, 104);
+	private final Movie JOHN_WICK = new Movie(2, "Jo", "Action", 2014, 104);
 	private final Movie TROPIC_THUNDER = new Movie(3, "Tropic Thunder", "Comedy", 2009, 97);
 	private final Movie MOVIE_MISSING_FIELDS = new Movie(0, "", "", 0, 0);
 
@@ -56,7 +60,9 @@ public class TestMovieController {
 								fieldWithPath("[].title").description("The movie's title"),
 								fieldWithPath("[].genre").description("The genre of the movie"),
 								fieldWithPath("[].releaseYear").description("The year the movie was released"),
-								fieldWithPath("[].runTimeMins").description("The movie's runtime in minutes"))));
+								fieldWithPath("[].runTimeMins").description("The movie's runtime in minutes"))))
+				.andExpect(jsonPath("$[1].title").value(MatchesPattern.matchesPattern(Pattern.compile(".{2,40}")))); //
+
 	}
 
 	@Test
@@ -79,9 +85,14 @@ public class TestMovieController {
 								fieldWithPath("title").description("The movie's title"),
 								fieldWithPath("genre").description("The genre of the movie"),
 								fieldWithPath("releaseYear").description("The year the movie was released"),
-								fieldWithPath("runTimeMins").description("The movie's runtime in minutes"))));
+								fieldWithPath("runTimeMins").description("The movie's runtime in minutes"))))
+				.andDo(WireMockRestDocs.verify().jsonPath("$[?(@.id =~ /[0-9]+/)]")
+						.jsonPath("$[?(@.title =~ /.{1,40}/)]").jsonPath("$[?(@.genre =~ /.{1,25}/)]")
+						.jsonPath("$[?(@.releaseYear =~ /[1-2]{1}[0,9]{1}[0-9]{2}/)]")
+						.jsonPath("$[?(@.runTimeMins =~ /[1-9]{1}[0-9]{1,2}/)]")
+						.contentType(MediaType.valueOf("application/json")).stub("add-movie"));
 	}
-	
+
 	@Test
 	public void callAddMovieEndpointError() throws Exception {
 		// Setup
@@ -98,7 +109,8 @@ public class TestMovieController {
 								fieldWithPath("genre").description("The genre of the movie"),
 								fieldWithPath("releaseYear").description("The year the movie was released"),
 								fieldWithPath("runTimeMins").description("The movie's runtime in minutes")),
-						responseFields(fieldWithPath("errorMessages").description("Array of messages describing from with request."))));
+						responseFields(fieldWithPath("errorMessages")
+								.description("Array of messages describing from with request."))));
 	}
 
 	@Test
