@@ -1,0 +1,2 @@
+org.springframework.cloud.contract.verifier.dsl.wiremock.WireMockExtensions=\
+com.bk.movie.client.LocalWireMockServerConfig.TestWireMockExtensions

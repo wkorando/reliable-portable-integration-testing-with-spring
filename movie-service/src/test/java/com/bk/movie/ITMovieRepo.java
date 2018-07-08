@@ -31,7 +31,7 @@ public class ITMovieRepo {
 	}
 
 	private static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("reliable-movies-db:latest");
-
+	
 	@RegisterExtension
 	static SpringTestContainersExtension extension = new SpringTestContainersExtension(postgres, true);
 	@Autowired
@@ -43,7 +43,6 @@ public class ITMovieRepo {
 
 	@Test
 	public void testRetrieveCustomerFromDatabase() {
-
 		Movie movie = repo.findById(1L).get();
 
 		assertAll(() -> assertEquals("Action", movie.getGenre()), //

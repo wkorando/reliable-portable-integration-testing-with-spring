@@ -11,7 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.web.client.RestTemplate;
 
 @SpringJUnitConfig(MovieClientServiceApplication.class)
-@AutoConfigureStubRunner(ids = "com.bk.movie:movie-service:+:8081", workOffline = true)
+@AutoConfigureStubRunner
 public class ITConsumeMovieService {
 
 	private RestTemplate restTemplate = new RestTemplate();
@@ -36,7 +36,5 @@ public class ITConsumeMovieService {
 		assertThat(movie.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 		assertThat(movie.getBody()).isEqualTo(newMovie);
 
-	}
-	
-	
+	}	
 }

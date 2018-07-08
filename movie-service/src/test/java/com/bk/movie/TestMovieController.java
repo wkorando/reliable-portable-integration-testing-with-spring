@@ -42,7 +42,7 @@ public class TestMovieController {
 	private MovieService service;
 
 	private final Movie PREDATOR = new Movie(1, "Predator", "Action", 1986, 127);
-	private final Movie JOHN_WICK = new Movie(2, "Jo", "Action", 2014, 104);
+	private final Movie JOHN_WICK = new Movie(2, "John Wick", "Action", 2014, 104);
 	private final Movie TROPIC_THUNDER = new Movie(3, "Tropic Thunder", "Comedy", 2009, 97);
 	private final Movie MOVIE_MISSING_FIELDS = new Movie(0, "", "", 0, 0);
 

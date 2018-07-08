@@ -20,8 +20,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<spring-cloud.version>Edgware.RELEASE</spring-cloud.version>
+		<spring-cloud.version>Edgware.SR4</spring-cloud.version>
 		<junit-jupiter.version>5.2.0</junit-jupiter.version>
+		<maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
+		<maven-failsafe.version>2.22.0</maven-failsafe.version>
 	</properties>
 
 	<dependencies>
@@ -37,6 +39,17 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
+<!-- 			<version>2.0.0.RELEASE</version> -->
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-contract-stub-runner</artifactId>
+<!-- 			<version>2.0.0.RELEASE</version> -->
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-contract-wiremock</artifactId>
+<!-- 			<version>2.0.0.RELEASE</version> -->
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -88,7 +101,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.22.0</version>
+				<version>${maven-failsafe.version}</version>
 			</plugin>
 		</plugins>
 	</build>
